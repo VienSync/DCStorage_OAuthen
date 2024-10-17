@@ -1,0 +1,346 @@
+﻿@model DCStorage.Models.SearchModels
+@{
+    ViewData["Title"] = "検索画面(試用環境_DV)";
+}
+
+<link rel="stylesheet" href="~/Commons/css/search.css">
+<script src="~/Commons/js/search.js"></script>
+
+<div class="header-top">
+    <div class="row">
+        <div class="col-sm-4" style="vertical-align: top">
+            <h5 class="id-class">ID: @Model.UserId</h5>
+        </div>
+        <div class="col-sm-4 d-flex align-items-center" style=" vertical-align: top">
+            <div class="text-center">
+                <h2>@ViewBag.Title</h2>
+            </div>
+        </div>
+        <div class="col-sm-4" style="text-align: right; vertical-align: top">
+            <button type="button" class="btn btn-search" onclick="onclickRegistor('@Model.UserId')">
+                <img class="search-icon" src="~/Commons/image/register.svg" alt="登録" />
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="content">
+    <form class="form-horizontal" method="post" asp-controller="Search" asp-action="Index">
+        <div class="d-flex justify-content-between">
+            <div class="valid-area">
+                <span id="FailMsg" class="text-danger">@ViewData["Message"] </span>
+            </div>
+        </div>
+        <input type="text" class="form-control" id="UserId" value="@Model.UserId" name="UserId" hidden>
+        <div class="row">
+            <div class="row col-6 col-equal-1">
+                <div class="form-group row mb-1">
+                    <div class="col-md-3">
+                        <label class="c-label-text"> オーダー情報</label>
+                    </div>
+                    <div class="col-md-8 d-flex">
+                        <input type="text" class="form-control"  id="Order_No" value="@Model.Order_No" name="Order_No">
+                        <div class="col-md-7" style="padding-left:5px">(客先注番)</div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-1">
+                    <div class="col-md-3">
+                        <label class="c-label-text"> 工番</label>
+                    </div>
+                    <div class="col-md-8 d-flex">
+                        <input type="text" class="form-control"  id="Work_No" value="@Model.Work_No" name="Work_No">
+                        <div class="col-md-7" style="padding-left:5px">(部門コード or 品目コード)</div>
+                    </div>
+
+                </div>
+
+                <div class="form-group row mb-1">
+                    <div class="col-md-3 d-flex">
+                        <label class="c-label-text"> 取引先コード</label>
+                    </div>
+                    <div class="col-md-8 d-flex">
+                        <input type="text" class="form-control" id="Supplier_Cd" value="@Model.Supplier_Cd" name="Supplier_Cd">
+                        <div class="col-md-8" style="padding-left:5px"></div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-1">
+                    <div class="col-md-3">
+                        <label class="c-label-text"> 取引先名称</label>
+                    </div>
+                    <div class="col-md-8 d-flex">
+                        <input type="text" class="form-control"  id="Supplier_Name" value="@Model.Supplier_Name" name="Supplier_Name">
+                    </div>
+
+                </div>
+
+                <div class="form-group row mb-1">
+                    <label class="col-md-3">取引日付</label>
+                    <div class="col-md-9 d-flex">
+                        <div class="date-input-container">
+                            <input type="text" class="form-control" id="start_Date" autocomplete="off" placeholder="YYYY年MM月DD日" value='@((Model.Order_Date1.HasValue ? Model.Order_Date1.Value.ToString("yyyy年MM月dd日") : ""))' name="Order_Date1">
+                            <img class="calendar-icon" src="~/Commons/image/calendar.svg" alt="カレンダー" onclick="clearDate('start_Date')" />
+                        </div>
+
+                        <span class="bi-ko" style="padding:6px 15px 0px 15px">～</span>
+
+                        <div class="date-input-container">
+                            <input type="text" class="form-control" id="end_Date" autocomplete="off" placeholder="YYYY年MM月DD日" value='@((Model.Order_Date2.HasValue ? Model.Order_Date2.Value.ToString("yyyy年MM月dd日") : ""))' name="Order_Date2">
+                            <img class="calendar-icon" src="~/Commons/image/calendar.svg" alt="カレンダー" onclick="clearDate('end_Date')" />
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="form-group row mb-1">
+                    <label class="col-md-3">取引金額</label>
+                    <div class="col-md-4 d-flex">
+                        <input type="text" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10)"
+                               class="form-control" id="myInput1" style="text-align: right;"  value="@Model.Order_Amount1" name="Order_Amount1">
+                        <div class="col-md-3" style="padding-left:25px">～</div>
+                    </div>
+                    <div class="col-md-4 d-flex">
+                        <input type="text" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10)"
+                               class="form-control" id="myInput2" style="text-align: right;" value="@Model.Order_Amount2" name="Order_Amount2">
+                        <div class="col-md-3" style="padding-left:5px"></div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-1">
+                    <label class="col-md-3">通貨</label>
+                    <div class="col-md-12 d-flex">
+                        <input type="text" class="form-control" id="Currency_Ut" value="@Model.Currency_Ut" name="Currency_Ut">
+                        <div class="col-md-10" style="padding-left:5px"></div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row col-6 col-equal-2" style="padding-left:50px">
+                <div class="form-group row mb-1">
+                    <label class="col-3" style="padding-left :20px">証憑区分</label>
+
+                    <div class="col-md-4">
+                        <select class="form-select mb-1" aria-label=".form-select-lg example" id="Report_Typ" name="Report_Typ">
+
+                            <option value="全て" @(Model.Report_Typ == "全て" ? "selected" : "")></option>
+                            @if (Model != null)
+                            {
+                                foreach (var item in Model.lstOrder)
+                                {
+                                    if (Model.RegistorType != null)
+                                    {
+                                        if (item.Contains(Model.RegistorType) && (Model.Report_Typ == null || Model.Report_Typ == item))
+                                        {
+                                            <option value="@item" selected>@item</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item" @(Model.Report_Typ == item ? "selected" : "")>@item</option>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <option value="@item" @(Model.Report_Typ == item ? "selected" : "")>@item</option>
+                                    }
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-1">
+                    <label class="col-3 " style="padding-left :20px">証憑登録日付</label>
+                    <div class="col-md-9 d-flex">
+                        <div class="date-input-container">
+                            <input type="text" class="form-control" id="start_Toroku" autocomplete="off" placeholder="YYYY年MM月DD日" value='@((Model.Reg_Date_Start.HasValue ? Model.Reg_Date_Start.Value.ToString("yyyy年MM月dd日") : ""))' name="Reg_Date_Start">
+                            <img class="calendar-icon" src="~/Commons/image/calendar.svg" alt="カレンダー" onclick="clearDate('start_Toroku')" />
+                        </div>
+
+                        <span class="bi-ko" style="padding:6px 15px 0px 15px">～</span>
+
+                        <div class="date-input-container">
+                            <input type="text" class="form-control" id="end_Toroku" autocomplete="off" placeholder="YYYY年MM月DD日" value='@((Model.Reg_Date_End.HasValue ? Model.Reg_Date_End.Value.ToString("yyyy年MM月dd日") : ""))' name="Reg_Date_End">
+                            <img class="calendar-icon" src="~/Commons/image/calendar.svg" alt="カレンダー" onclick="clearDate('end_Toroku')" />
+                        </div>
+
+                    </div>
+                    
+                </div>
+
+                <div class="form-group row mb-1">
+                    <label class="col-3" style="padding-left :20px">証憑元形式</label>
+                    <input type="text" id="Report_Fmt" hidden value="@Model.Report_Fmt" name="Report_Fmt">
+                    <div class="col-md-6 d-flex">
+                        <div>
+                            <input type="radio" id="radio_Option1" name="Deta" value="電子" checked="@(Model!= null?((Model.Report_Fmt == "電子") ? "checked" : null):null)">
+                            <label style="text-decoration:underline" for="radio_Option1">電子</label>
+                        </div>
+
+                        <div style="padding-left :15px">
+                            <input type="radio" id="radio_Option2" name="Deta" value="紙" checked="@(Model!= null?((Model.Report_Fmt == "紙") ? "checked" : null):null)">
+                            <label style="text-decoration:underline" for="radio_Option2">紙</label>
+                        </div>
+                        <div style="padding-left :15px">
+                            <input type="radio" id="radio_Option3" name="Deta" value="両方" checked="@(Model!= null?((Model.Report_Fmt != "電子" && Model.Report_Fmt != "紙") ? "checked" : null):"checked")">
+                            <label style="text-decoration:underline" for="radio_Option3">両方</label>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="form-group row mb-1" style="height: 35px">
+                    <label class="col-3" style="padding-left :20px">証憑登録者</label>
+                    <div class="col-md-12 d-flex ">
+                        <input type="text" class="form-control" id="Personal_Cd" value="@Model.Personal_Cd" name="Personal_Cd">
+                        <div class="col-md-10"></div>
+                    </div>
+                </div>
+
+                <div class="row mb-1" style="height: 80px">
+                    <div class="col-md-7" style="padding-left :20px">
+                        <label>検索除外データの検索</label>
+                        <input type="text"  id="Del_Flag" hidden  name="Del_Flag">
+                        <input type="text"  id="statusToggle" hidden   name="statusToggle">
+                        <label class="switch">
+                            <input type="checkbox" id="toggleButton" @(Model != null ? (Model.statusToggle ? "checked" : "") : null)>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="col-md-5" id="toggleView" style="@(Model.statusToggle ? "" : "display:none")">
+                        <div class="col-md-12" style="padding-left :15px">
+                            <input type="radio" id="radio_Kata1" name="Option" value="0" checked="@(Model!= null?((Model.Del_Flag !=1&&Model.Del_Flag !=2) ? "checked" : null):"checked")">
+                            <label style="text-decoration:underline" for="radio_Kata1">0.登録データ</label>
+                        </div>
+
+                        <div class="col-md-12" style="padding-left :15px">
+                            <input type="radio" id="radio_Kata2" name="Option" value="1" checked="@(Model!= null?((Model.Del_Flag == 1) ? "checked" : null):null)">
+                            <label style="text-decoration:underline" for="radio_Kata2">1.検索除外データ</label>
+                        </div>
+                        <div class="col-md-12" style="padding-left :15px">
+                            <input type="radio" id="radio_Kata3" name="Option" value="2" checked="@(Model!= null?((Model.Del_Flag == 2) ? "checked" : null):null)">
+                            <label style="text-decoration:underline" for="radio_Kata3">全データ</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <input type="text" class="form-control" style="display: none" readonly id="RegistorType" value="@Model.RegistorType" name="RegistorType">
+        </div>
+
+        <div class="label_customer" style="display: flex; align-items: center;">
+            <button type="button" name="kensakuButton" value="Search" class="btn btn-primary search-button" id="Kensaku">検 索</button>
+            <div class="lds-roller" style="display:none" id="spinLoadingSearch"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+
+        </div>
+
+    </form>
+    <div class="row mt-1">
+        <div class="col-md-5"></div>
+        <div class="col-md-5">
+            <label>検索結果：    </label>
+            @if (Model != null)
+            {
+                if (@Model.lstResultSearches != null)
+                {
+                    <label style="text-decoration: underline;">@Model.lstResultSearches.Count 件※</label>
+                }
+                else
+                {
+                    <label style="text-decoration: underline;">0件※</label>
+                }
+            }
+            else
+            {
+                <label style="text-decoration: underline;">0件※</label>
+            }
+        </div>
+
+    </div>
+
+    <hr style="color:#2980b9" />
+
+    <div class="col-md-12 table-container">
+        <table id="delivery-details-table" class="table table-bordered" style="width:100%">
+            <thead>
+                <tr>
+                    <th>証憑区分/登録者</th>
+                    <th>工番/オーダー</th>
+                    <th>取引先名称/コード</th>
+                    <th>取引日付/金額</th>
+                    <th>証憑登録日時</th>
+                    <th>形式/除外状態</th>
+                    <th style="width:100px"></th>
+                    <th style="width:100px"></th>
+                </tr>
+            </thead>
+            <tbody id="myTableBody">
+                @if (Model != null)
+                {
+                    if (@Model.lstResultSearches != null)
+                    {
+                        int count = 0;
+                        foreach (var person in Model.lstResultSearches)
+                        {
+                            bool isEvenRow = count % 2 == 0;
+                            <tr>
+                                <td class="@(isEvenRow ? "even-row" : "odd-row")">@person.Report_Typ <br> @person.Reg_User</td>
+                                <td class="@(isEvenRow ? "even-row" : "odd-row")">@person.Work_No <br> @person.Order_No</td>
+                                <td class="@(isEvenRow ? "even-row" : "odd-row")">@person.Supplier_Name <br> @person.Supplier_Cd</td>
+                                <td style="text-align: right" class="@(isEvenRow ? "even-row" : "odd-row")">
+                                    @(person.Order_Date.HasValue ? person.Order_Date.Value.ToString("yyyy年MM月dd日") : "") <br>
+                                    <span id="formattedOrderAmount">@String.Format("{0:#,0.#####}", person.Order_Amount)</span> @person.Currency_Ut
+                                </td>
+                                <td class="@(isEvenRow ? "even-row" : "odd-row")" style="text-align: right">@(person.Reg_Date.HasValue ? person.Reg_Date.Value.ToString("yyyy年MM月dd日") : "") <br> @(person.Reg_Time.HasValue ? person.Reg_Time.Value.ToString(@"hh\:mm\:ss") : "")</td>
+                                <td class="@(isEvenRow ? "even-row" : "odd-row")">
+                                    <div style="text-align: left; padding-left: 20px;">@person.Report_Fmt</div>
+                                    <div style="text-align: right; padding-right: 20px;">@person.Del_Flag</div>
+                                </td>
+                                <td style="text-align:center" rowspan="2" class="@(isEvenRow ? "even-row" : "odd-row")">
+                                    <button id="idviewbox" type="button" class="btn btn-icon" onclick="onclickDownload_FileJWT('@person.Data_Seq')">
+                                        <img class="search-icon" src="~/Commons/image/download.svg" alt="編集" />
+                                    </button>
+                                </td>
+                                <td style="text-align:center" rowspan="2" class="@(isEvenRow ? "even-row" : "odd-row")">
+                                    <button id="iddetail" type="button" class="btn btn-icon" onclick="onclickDetailJWT('@person.Data_Seq','@Model.UserId',getValueFrom())">
+                                        <img class="search-icon" src="~/Commons/image/info.svg" alt="参照" />
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="6" class="@(isEvenRow ? "even-row" : "odd-row")">
+                                    メモ欄： @person.Memo
+                                </td>
+                            </tr>
+                            count++;
+                        }
+                    }
+                }
+            <tbody>
+        </table>
+
+    </div>
+
+    <div id="slData_seq" style="display:none"></div>
+    <div id="slSates" style="display:none"></div>
+
+    <div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header" id="modalHeader" style="background-color: orange">
+                    <h5 class="modal-title" id="exampleModalLabel"></h5>
+                </div>
+                <div class="modal-body">
+                    <p id="errorContent">データベースに連続ができませんので管理者に連絡してください！</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="text-decoration:underline; text-align: right;">
+        ※ 検索結果が100件を超える場合は総データ数が分かりません。この場合は、100件目までスクロールすれば100件単位でデータを取得します。
+    </div>
+</div>
+@* <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script> *@
+
+

@@ -1,0 +1,173 @@
+﻿html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.header-top {
+    border-radius: 0px !important;
+    margin-bottom: 0px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-bottom: 3px solid #2980b9;
+    background-color: azure;
+}
+
+.date-input-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.date-input {
+    flex: 1;
+}
+
+.date-image {
+    margin-left: 5px; /* Điều chỉnh khoảng cách giữa input và hình ảnh */
+}
+.calendar-icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    /* left: 250px; */
+    width: 25px;
+    height: 25px;
+    right: 10px;
+}
+
+.id-class {
+    margin: 20px 0px 20px 15px;
+}
+.btn-search {
+    margin: 10px 20px 10px 0px;
+}
+
+.search-icon {
+    width: 30px;
+    height: 30px;
+}
+
+.lds-roller {
+    width: 80px;
+    height: 80px;
+    display: block;
+    position: fixed;
+    top: 40%;
+    left:45%;
+}
+
+    .lds-roller div {
+        animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+        transform-origin: 40px 40px;
+    }
+
+        .lds-roller div:after {
+            content: " ";
+            display: block;
+            position: absolute;
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #2980b9;
+            margin: -4px 0 0 -4px;
+        }
+
+        .lds-roller div:nth-child(1) {
+            animation-delay: -0.036s;
+        }
+
+            .lds-roller div:nth-child(1):after {
+                top: 63px;
+                left: 63px;
+            }
+
+        .lds-roller div:nth-child(2) {
+            animation-delay: -0.072s;
+        }
+
+            .lds-roller div:nth-child(2):after {
+                top: 68px;
+                left: 56px;
+            }
+
+        .lds-roller div:nth-child(3) {
+            animation-delay: -0.108s;
+        }
+
+            .lds-roller div:nth-child(3):after {
+                top: 71px;
+                left: 48px;
+            }
+
+        .lds-roller div:nth-child(4) {
+            animation-delay: -0.144s;
+        }
+
+            .lds-roller div:nth-child(4):after {
+                top: 72px;
+                left: 40px;
+            }
+
+        .lds-roller div:nth-child(5) {
+            animation-delay: -0.18s;
+        }
+
+            .lds-roller div:nth-child(5):after {
+                top: 71px;
+                left: 32px;
+            }
+
+        .lds-roller div:nth-child(6) {
+            animation-delay: -0.216s;
+        }
+
+            .lds-roller div:nth-child(6):after {
+                top: 68px;
+                left: 24px;
+            }
+
+        .lds-roller div:nth-child(7) {
+            animation-delay: -0.252s;
+        }
+
+            .lds-roller div:nth-child(7):after {
+                top: 63px;
+                left: 17px;
+            }
+
+        .lds-roller div:nth-child(8) {
+            animation-delay: -0.288s;
+        }
+
+            .lds-roller div:nth-child(8):after {
+                top: 56px;
+                left: 12px;
+            }
+
+@keyframes lds-roller {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}

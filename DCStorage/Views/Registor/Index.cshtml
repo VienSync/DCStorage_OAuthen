@@ -1,0 +1,335 @@
+﻿@model DCStorage.Models.Register
+@{
+    ViewData["Title"] = "登録画面";
+}
+<link rel="stylesheet" href="~/Commons/css/registor.css">
+
+<div class="header-top">
+    <div class="row">
+        <div class="col-sm-4" style="vertical-align: top">
+            <h5 class="id-class">ID: @Model.UserId</h5>
+        </div>
+        <div class="col-sm-4 d-flex align-items-center" style=" vertical-align: top">
+            <div class="text-center title-header">
+                @if (@Model.RegistorType == "発注" || @Model.RegistorType == "検収")
+                {
+                    <h2>@ViewBag.Title<span class="additional-text ">（発注）</span></h2>
+                    <input type="text" id="RegistorType" value="@Model.RegistorType" name="RegistorType" style="display:none">
+                }
+                else
+                {
+                    <h2>@ViewBag.Title<span class="additional-text ">（受注）</span></h2>
+                    <input type="text" id="RegistorType" value="@Model.RegistorType" name="RegistorType" style="display:none">
+                }
+            </div>
+        </div>
+        <div class="col-sm-4" style="text-align: right; vertical-align: top">
+            <button type="button" class="btn btn-search" onclick="onclickSearch('@Model.UserId')">
+                <img class="search-icon" src="~/Commons/image/search.svg" alt="検索" />
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="content">
+    <form class="form-horizontal" method="post" enctype="multipart/form-data" id="saveForm">
+        <div class="d-flex justify-content-between">
+            <div class="valid-area">
+                <span id="FailMsg" class="text-danger">@ViewData["Error"] </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6 col-equal">
+                <div class="text-center">
+                    <p style="font-size: 1.3em">
+                        I-SYS 情報
+                    </p>
+                    <hr class="title-hr" />
+                </div>
+                <div style="height:4vh"></div>
+                <div class="form-group row mb-1">
+                    @if (@Model.RegistorType == "発注" || @Model.RegistorType == "検収")
+                    {
+                        <label for="Order_No" class="col-md-3 control-label label-length-fix">オーダー情報</label>
+                    }
+                    else
+                    {
+                        <label for="Order_No" class="col-md-3 control-label label-length-fix">(客先注番)</label>
+                    }
+                    <div class="col-md-4">
+                        <input type="text" class="form-control readonly-input" id="Order_No" name="Order_No" value="@Model.Order_No" title="" maxlength="20" oninput="checkOrderNo(this)" readonly>
+                        <div id="orderNoError" class="text-danger"></div>
+                    </div>
+                </div>
+                <div class="form-group row mb-1">
+                    @if (@Model.RegistorType == "発注" || @Model.RegistorType == "検収")
+                    {
+                        <label for="Work_No" class="col-md-3 control-label label-length-fix">(部門 or 品目コード)</label>
+                    }
+                    else
+                    {
+                        <label for="Work_No" class="col-md-3 control-label label-length-fix">工番</label>
+                    }
+
+                    <div class="col-md-4">
+                        <input type="text" class="form-control readonly-input" id="Work_No" name="Work_No" value="@Model.Work_No" required title="" maxlength="40" oninput="checkWorkNo(this)" readonly>
+                        <div id="workNoError" class="text-danger"></div>
+                    </div>
+                </div>
+                <div class="form-group row mb-1">
+                    <label for="Name" class="col-md-3 control-label label-length-fix">取引先コード<span class="text-danger"> *</span></label>
+                    <div class="col-md-3">
+                        <input type="text" class="form-control readonly-input" id="Supplier_Cd" value="@Model.Supplier_Cd" name="Supplier_Cd" required title="" maxlength="20" oninput="checkSupplier_Cd(this)" readonly>
+                        <div id="supplyCodeError" class="text-danger"></div>
+                    </div>
+                </div>
+                <div class="form-group row mb-1">
+                    <label for="Name" class="col-md-3 control-label label-length-fix">取引先名称<span class="text-danger"> *</span></label>
+                    <div class="col-md-7">
+                        <input type="text" class="form-control readonly-input" id="Supplier_Name" value="@Model.Supplier_Name" name="Supplier_Name" required title="" maxlength="128" oninput="checkSupplier_Name(this)" readonly>
+                        <div id="supplyNameError" class="text-danger"></div>
+                    </div>
+                </div>
+                <div class="form-group row mb-1">
+                    <label for="Name" class="col-md-3 control-label label-length-fix">取引日付<span class="text-danger"> *</span></label>
+                    <div class="col-md-9 d-flex align-items-center">
+                        <input type="text" class="form-control readonly-input" id="Order_Date_View" value="@Model.Order_Date_View" name="Order_Date_View" style="width: 30%" minlength="8" maxlength="8" pattern="[0-9]*" required oninput="checkNumber(this)" title="" readonly>
+                        <div id="orderDateError" class="text-danger"></div>
+                        <span class="bi-ko"> ※１  ※3</span>
+                    </div>
+                </div>
+                <div class="form-group row mb-1">
+                    <label for="Name" class="col-md-3 control-label label-length-fix">取引金額<span class="text-danger"> *</span></label>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control text-right" id="Order_Amount_View" value="@Model.Order_Amount_View" name="Order_Amount_View" oninput="formatNumber(this)" maxlength="15" required title="">
+                        <div id="orderAmountError" class="text-danger"></div>
+                    </div>
+                </div>
+                <div class="form-group row mb-1">
+                    <label for="Name" class="col-md-3 control-label label-length-fix">通貨<span class="text-danger"> *</span></label>
+                    <div class="col-md-2">
+                        <input type="text" class="form-control readonly-input" id="Currency_Ut" value="@Model.Currency_Ut" name="Currency_Ut" required maxlength="10" oninput="checkCurrency_Ut(this)" readonly>
+                        <div id="currencyError" class="text-danger"></div>
+                    </div>
+                </div>
+                <div class="form-group row mb-1">
+                    <label for="Name" class="col-md-3 control-label label-length-fix">対応明細行</label>
+                    <div class="col-md-9 d-flex align-items-center">
+                        <input type="text" class="form-control"  id="Detail_No" value="@Model.Detail_No" name="Detail_No" maxlength="20" style="width: 41.5%">
+                        @if (@Model.RegistorType == "発注" || @Model.RegistorType == "検収")
+                        {
+                            <span class="bi-ko"> ※4</span>
+                        }
+                    </div>
+                </div>
+
+            </div>
+
+            <div class=" col-6 col-equal">
+                <div class="text-center">
+                    <p style="font-size:1.3em">
+                        証憑 情報
+                    </p>
+                    <hr class="title-hr" />
+                </div>
+                <div style="height:6vh"></div>
+                <div class="form-group row mb-1">
+                    <label for="Name" class="col-md-3 control-label">証憑区分<span class="text-danger"> *</span></label>
+                    <div class="col-md-5">
+                        <select class="form-select mb-1" aria-label=".form-select-lg example" id="Report_Typ" name="Report_Typ" required oninput="checkClass(this)" title="" onchange="changeReportType(this.value)">
+                            <option disabled value=""></option>
+                            @{
+                                if (Model != null)
+                                {
+                                    foreach (var item in Model.lstOrder)
+                                    {
+                                        if (Model.RegistorType != null)
+                                        {
+                                            if (item.Contains(Model.RegistorType))
+                                            {
+                                                <text>
+                                                    <option value="@item" selected>@item</option>
+                                                </text>
+                                            }
+                                            else
+                                            {
+                                                <text>
+                                                    <option value="@item">@item</option>
+                                                </text>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <text>
+                                                <option value="@item">@item</option>
+                                            </text>
+                                        }
+                                    }
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div id="idOrder_DateHide" style="display:none">@Model.Order_Date</div>
+                <div id="idOrder_AmountHide" style="display:none">@Model.Order_Amount</div>
+                <div id="idCompletion_Date" style="display:none">@Model.Completion_Date</div>
+                <div id="idCompletion_Amount" style="display:none">@Model.Completion_Amount</div>
+                <div class="form-group row mb-1">
+                    <label class="col-md-3 control-label">証憑元形式<span class="text-danger"> *</span></label>
+                    <div class="col-md-6 d-flex block-radio">
+                        <div class="radio_Option1">
+                            <input type="radio" id="radio_Option1" name="Report_Fmt" value="電子" required title="" checked>
+                            <label style="text-decoration:underline" for="radio_Option1">電子</label>
+                        </div>
+
+                        <div style="padding-left: 15px" class="radio_Option2">
+                            <input type="radio" id="radio_Option2" name="Report_Fmt" value="紙" required title="">
+                            <label style="text-decoration:underline" for="radio_Option2">紙</label>
+                        </div>
+                        <div style="padding-left: 5px" class="radio_Option2">
+                            <span class="bi-ko"> ※２</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-1 row input-block" ondragover="allowDrop(event)" ondrop="drop(event)">
+                    <label class="col-md-3 control-label">保存する証憑<span class="text-danger"> *</span></label>
+                    <div class="col-md-7" style="text-align: start">
+                        <div class="col-sm-10 form-control upload-file">
+                            <div id="selectedFiles">
+                                証憑を添付してください。
+                            </div>
+                            <input type="file" multiple style="display: none;" id="FileList" name="FileList" accept=".pdf, .xlsx, .csv, .xls, .ppt, .txt, .rtf, .msg, .pptx">
+                            <label for="FileList" class="custom-file-label">
+                                <img class="upload-icon" src="~/Commons/image/uploadfile.png" alt="" /> ファイルを添付
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row mb-1">
+                    <label for="Memo" class="col-md-3 control-label">メモ欄</label>
+                    <div class="col-md-7">
+                        <textarea class="form-control" id="Memo" name="Memo" rows="4" maxlength="200">@Model.Memo</textarea>
+                        <div id="MemoError" class="text-danger"></div>
+                    </div>
+                </div>
+                <input type="text" id="UserId" value="@Model.UserId" name="UserId" style="display:none">
+            </div>
+        </div>
+
+        <div class="label_customer">
+            <img class="save-icon" src="~/Commons/image/save.png" alt="" />
+            <button type="button" name="submitButton" value="Registor" class="btn btn-primary save-button" id="openModalButton">
+                登 録
+            </button>
+            <div class="lds-roller" style="display:none" id="spinLoading"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+        </div>
+    </form>
+
+    <hr style="color:#2980b9" />
+    <div class="bi-ko">
+        ※1) 「YYYYMMDD」形式の８桁    例：2024年1月1日　⇒　20240101　　　　　　　　　　※2) 自身でスキャンしたデータ（取引先から紙媒体で届いたもの）
+    </div>
+    @if (@Model.RegistorType == "発注" || @Model.RegistorType == "検収")
+    {
+        <div class="bi-ko">
+            ※3) 証憑区分によって次の値をセットする＞   「発注 証憑」 ＝ I-SYSの発注日 / 「検収 証憑」＝ I-SYSの受領日(※受領日が空白の場合：最新の入荷日付)
+        </div>
+        <div class="bi-ko">
+            ※4) 証憑に対応するI-SYSの明細行を記入する(登録)する証憑とオーダー番号の全明細行が一致するのであれば記入の必要なし  詳細については操作マニュアルを参照してください)
+        </div>
+    }
+    else
+    {
+        <div class="bi-ko">
+            ※3) 証憑区分によって次の値をセットする＞   「受注 証憑」 ＝ I-SYSの受注日 / 「完成 証憑」＝ I-SYSの完成日(完成していない場合は0がセットされて登録できない)
+        </div>
+    }
+
+    <div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header" id="modalHeader" style="background-color: orange">
+                    <h5 class="modal-title" id="exampleModalLabel"></h5>
+                </div>
+                <div class="modal-body">
+                    <p id="errorContent"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" tabindex="-1" role="dialog" id="confirmModal">
+        <div class="modal-dialog custom-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="justify-content: center; background-color: #7feaefa6">
+                    <h5 class="modal-title">以下の情報で登録します。</h5>
+                </div>
+                <div class="modal-body" id="confirmContent">
+                    <div class="form-group row mb-1 modal_form_css">
+                        <label class="col-md-1 control-label"></label>
+                        <label class="col-md-4 control-label">オーダー情報(客先注番)</label>
+                        <label class="col-md-5 control-label modal_label_css" id="dataConfirm1"></label>
+                    </div>
+                    <div class="form-group row mb-1 modal_form_css">
+                        <label class="col-md-1 control-label"></label>
+                        <label class="col-md-4 control-label">工番(部門 or 品目コード)</label>
+                        <label class="col-md-5 control-label modal_label_css" id="dataConfirm2"></label>
+                    </div>
+                    <div class="form-group row mb-1 modal_form_css">
+                        <label class="col-md-1 control-label"></label>
+                        <label class="col-md-4 control-label">取引先コード</label>
+                        <label class="col-md-5 control-label modal_label_css" id="dataConfirm3"></label>
+                    </div>
+                    <div class="form-group row mb-1 modal_form_css">
+                        <label class="col-md-1 control-label"></label>
+                        <label class="col-md-4 control-label">取引先名称</label>
+                        <label class="col-md-6 control-label modal_label_css" id="dataConfirm4"></label>
+                    </div>
+                    <div class="form-group row mb-1 modal_form_css">
+                        <label class="col-md-1 control-label"></label>
+                        <label class="col-md-4 control-label">取引日付</label>
+                        <label class="col-md-5 control-label modal_label_css" id="dataConfirm5"></label>
+                    </div>
+                    <div class="form-group row mb-1 modal_form_css">
+                        <label class="col-md-1 control-label"></label>
+                        <label class="col-md-4 control-label">取引金額</label>
+                        <label class="col-md-5 control-label modal_label_css" id="dataConfirm6"></label>
+                    </div>
+                    <div class="form-group row mb-1 modal_form_css">
+                        <label class="col-md-1 control-label"></label>
+                        <label class="col-md-4 control-label">対応明細行</label>
+                        <label class="col-md-5 control-label modal_label_css" id="dataConfirm9"></label>
+                    </div>
+                    <div class="form-group row mb-1 modal_form_css">
+                        <label class="col-md-1 control-label"></label>
+                        <label class="col-md-4 control-label">通貨</label>
+                        <label class="col-md-5 control-label modal_label_css" id="dataConfirm10"></label>
+                    </div>
+                    <hr style="color:#2980b9; width: 88%; margin: 15px auto" />
+                    <div class="form-group row mb-1 modal_form_css">
+                        <label class="col-md-1 control-label"></label>
+                        <label class="col-md-4 control-label">証憑区分</label>
+                        <label class="col-md-5 control-label modal_label_css" id="dataConfirm7"></label>
+                    </div>
+                    <div class="form-group row mb-1 modal_form_css">
+                        <label class="col-md-1 control-label"></label>
+                        <label class="col-md-4 control-label">証憑元形式</label>
+                        <label class="col-md-5 control-label modal_label_css" id="dataConfirm8"></label>
+                    </div>
+                    <div class="form-group row mb-1 modal_form_css">
+                        <label class="col-md-1 control-label"></label>
+                        <label class="col-md-4 control-label">メモ欄</label>
+                        <textarea class="col-md-5 control-label modal_label_css" id="dataConfirm11" name="dataConfirm11" disabled style="height: 70px; background-color: white"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer" style="justify-content: center">
+                    <button type="button" class="btn btn-primary" id="confirmSave" style="width: 80px; margin:0px 50px ">Yes</button>
+                    <button type="button" class="btn btn-secondary" id="closeConfirmModal" style="width: 80px; margin:0px 50px ">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Commons/js/registor.js"></script>
+

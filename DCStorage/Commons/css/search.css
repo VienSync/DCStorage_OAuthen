@@ -1,0 +1,331 @@
+﻿html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.header-top {
+    border-radius: 0px !important;
+    margin-bottom: 0px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-bottom: 3px solid #2980b9;
+    background-color: azure;
+}
+
+.content {
+    padding-top: 20px;
+    font-size:16px;
+}
+
+.id-class {
+    margin: 20px 0px 20px 15px;
+}
+
+h2 {
+    font-weight: bold;
+}
+
+.btn-search {
+    margin: 10px 20px 10px 0px;
+}
+
+.btn-icon {
+    margin: 10px 10px 10px 0px;
+}
+
+.additional-text {
+    font-size: 65%; /* フォントサイズを調整します。 */
+    font-weight: 400;
+}
+
+.row-equal {
+    display: flex;
+    align-items: stretch;
+}
+
+/* col-1 */
+.col-equal-1 {
+    flex: 1;
+    border-right: 2px solid #2980b9;
+    padding: 15px;
+}
+
+/* col-2 */
+.col-equal-2 {
+    flex: 1;
+    padding: 15px;
+    border-right: none;
+}
+
+
+.form-group.row {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.col-md-5 {
+    padding-left: 30px;
+}
+
+.inline-text {
+    display: inline;
+}
+
+.table-container {
+    max-height: 450px; /* テーブルの最大高さ */
+    overflow-y: auto; /* コンテンツが大きすぎる場合はスクロールが許可されます。*/
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+/* テーブルのフォーマット */
+th, td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+th {
+    background-color: #f2f2f2;
+    position: sticky;
+    top: 0; /* スクロール時にヘッダーを最上部に固定する */
+    border-top: 10px solid #dddddd;
+}
+
+.label_customer {
+    text-align: center;
+    padding-top: 15px;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-content: space-around;
+    flex-direction: column;
+    align-items: center;
+    margin-right:15px;
+}
+.search-button {
+    font-weight: bold;
+    width: 150px;
+    height: 50px;
+    font-size: 1.5em;
+}
+.search-icon {
+    width: 30px; 
+    height: 30px;
+}
+.btn-search {
+    margin: 10px 20px 10px 0px;
+}
+.date-input-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.date-input {
+    flex: 1;
+}
+
+.date-image {
+    margin-left: 5px;
+}
+
+.calendar-icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 23px;
+    height: 23px;
+    right: 7px;
+}
+.lds-roller {
+    width: 80px;
+    height: 80px;
+    display: block;
+    position: fixed;
+    top: 35%;
+}
+
+    .lds-roller div {
+        animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+        transform-origin: 40px 40px;
+    }
+
+        .lds-roller div:after {
+            content: " ";
+            display: block;
+            position: absolute;
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #2980b9;
+            margin: -4px 0 0 -4px;
+        }
+
+        .lds-roller div:nth-child(1) {
+            animation-delay: -0.036s;
+        }
+
+            .lds-roller div:nth-child(1):after {
+                top: 63px;
+                left: 63px;
+            }
+
+        .lds-roller div:nth-child(2) {
+            animation-delay: -0.072s;
+        }
+
+            .lds-roller div:nth-child(2):after {
+                top: 68px;
+                left: 56px;
+            }
+
+        .lds-roller div:nth-child(3) {
+            animation-delay: -0.108s;
+        }
+
+            .lds-roller div:nth-child(3):after {
+                top: 71px;
+                left: 48px;
+            }
+
+        .lds-roller div:nth-child(4) {
+            animation-delay: -0.144s;
+        }
+
+            .lds-roller div:nth-child(4):after {
+                top: 72px;
+                left: 40px;
+            }
+
+        .lds-roller div:nth-child(5) {
+            animation-delay: -0.18s;
+        }
+
+            .lds-roller div:nth-child(5):after {
+                top: 71px;
+                left: 32px;
+            }
+
+        .lds-roller div:nth-child(6) {
+            animation-delay: -0.216s;
+        }
+
+            .lds-roller div:nth-child(6):after {
+                top: 68px;
+                left: 24px;
+            }
+
+        .lds-roller div:nth-child(7) {
+            animation-delay: -0.252s;
+        }
+
+            .lds-roller div:nth-child(7):after {
+                top: 63px;
+                left: 17px;
+            }
+
+        .lds-roller div:nth-child(8) {
+            animation-delay: -0.288s;
+        }
+
+            .lds-roller div:nth-child(8):after {
+                top: 56px;
+                left: 12px;
+            }
+
+@keyframes lds-roller {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 40px; /* Điều chỉnh chiều rộng theo nhu cầu */
+    height: 20px; /* Điều chỉnh chiều cao theo nhu cầu */
+}
+
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 20px; /* Điều chỉnh độ cong theo nhu cầu */
+}
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 16px; /* Điều chỉnh chiều cao của phần tròn bên trong */
+        width: 16px; /* Điều chỉnh chiều rộng của phần tròn bên trong */
+        left: 2px;
+        bottom: 2px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+        border-radius: 50%;
+    }
+
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(16px); /* Điều chỉnh vị trí của phần tròn khi toggleButton được bật */
+    -ms-transform: translateX(16px);
+    transform: translateX(16px);
+}
+
+Input::placeholder {
+    Font-size: 80%
+}
+
+.even-row {
+    background-color: #f2f2f2 !important; /* Màu nền cho dòng chẵn */
+}
+
+.odd-row {
+    background-color: white;
+}

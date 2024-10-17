@@ -1,0 +1,268 @@
+﻿@model DCStorage.Models.DetailModels
+@{
+    ViewData["Title"] = "参照画面";
+}
+<script src="~/Commons/js/details.js" asp-append-version="true"></script>
+<link rel="stylesheet" type="text/css" href="/Commons/css/details.css" />
+
+<div class="header-top">
+    <div class="row">
+        <div class="col-sm-4" style="vertical-align: top">
+            <h5 class="id-class">ID: @Model.UserId</h5>
+        </div>
+        <div class="col-sm-4 d-flex align-items-center" style=" vertical-align: top; justify-content: center">
+            <div class="text-center">
+                <h2>@ViewBag.Title</h2>
+            </div>
+        </div>
+        <div class="col-sm-4" style="text-align: right; vertical-align: top">
+            <button type="button" class="btn btn-search" onclick="onclickSearch('@Model.UserId','@Model.Value_Search')">
+                <img class="search-icon" src="~/Commons/image/search.svg" alt="検索" />
+            </button>
+        </div>
+    </div>
+</div>
+<form class="col-md-12" method="post" asp-controller="Detail" asp-action="Index">
+    @Html.AntiForgeryToken()
+    <div class=" row">
+        <div class="row col-6">
+            <div class="form-group row mb-1" style="display:none">
+                @Html.LabelFor(model => model.Data_Seq, htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-5">
+                    @Html.EditorFor(model => model.Data_Seq, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.Data_Seq, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group row mb-1" style="padding-top:20px">
+                @Html.LabelFor(model => model.Order_No, htmlAttributes: new { @class = "control-label col-md-6" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.Order_No, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.Order_No, "", new { @class = "text-danger" })
+                </div>
+
+            </div>
+
+            <div class="form-group row mb-1">
+                @Html.LabelFor(model => model.Work_No, htmlAttributes: new { @class = "control-label col-md-6" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.Work_No, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.Work_No, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group row mb-1">
+                @Html.LabelFor(model => model.Supplier_Cd, htmlAttributes: new { @class = "control-label col-md-6" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.Supplier_Cd, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.Supplier_Cd, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+            <div class="form-group row mb-1">
+                @Html.LabelFor(model => model.Supplier_Name, htmlAttributes: new { @class = "control-label col-md-6" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.Supplier_Name, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.Supplier_Name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group row mb-1">
+                @*@Html.LabelFor(model => model.Order_Date, htmlAttributes: new { @class = "control-label col-md-6" })
+                <div class="col-md-6">
+                @Html.EditorFor(model => model.Order_Date,new { htmlAttributes = new { @class = "form-control", @id="idOrderDate"} })
+                @Html.ValidationMessageFor(model => model.Order_Date, "", new { @class = "text-danger" })
+                </div>*@
+                <label class="col-md-6">取引日付</label>
+                <div class="col-md-6">
+                    <div class="date-input-container">
+                        <input type="text" class="form-control" value='@((Model.Order_Date.HasValue ? Model.Order_Date.Value.ToString("yyyy年MM月dd日") : ""))' name="Order_Date" id="idOrderDate" autocomplete="off" placeholder="YYYY年MM月DD日" style="background-color: white">
+                        <img class="search-icon calendar-icon" src="~/Commons/image/calendar.svg" alt="カレンダー"  />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row mb-1">
+                @Html.LabelFor(model => model.Order_Amount, htmlAttributes: new { @class = "control-label col-md-6" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.Order_Amount, new { htmlAttributes = new { @class = "form-control", @oninput = "formatNumber(this)", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.Order_Amount, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group row mb-1">
+                @Html.LabelFor(model => model.Currency_Ut, htmlAttributes: new { @class = "control-label col-md-6" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.Currency_Ut, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.Currency_Ut, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group row mb-1">
+                @Html.LabelFor(model => model.Detail_No, htmlAttributes: new { @class = "control-label col-md-6" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.Detail_No, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.Detail_No, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <hr style="padding-top:-10px;color:#2980b9" />
+
+            @*<div class="form-group row mb-1">
+                @Html.LabelFor(model => model.Revision_Cnt, htmlAttributes: new { @class = "control-label col-md-6" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.Revision_Cnt, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Revision_Cnt, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+
+            <div class="form-group row mb-1">
+                @Html.LabelFor(model => model.Report_Typ, htmlAttributes: new { @class = "control-label col-md-6" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.Report_Typ, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.Report_Typ, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group row mb-1">
+                @Html.LabelFor(model => model.Report_Fmt, htmlAttributes: new { @class = "control-label col-md-6" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.Report_Fmt, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.Report_Fmt, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group row mb-1">
+                @*@Html.LabelFor(model => model.Reg_Date, htmlAttributes: new { @class = "control-label col-md-6" })
+                <div class="col-md-6">
+                @Html.EditorFor(model => model.Reg_Date,"{0:yyyy'年'MM'月'dd'日'}", new { htmlAttributes = new { @class = "form-control" , @id = "idRegDate"} })
+                @Html.ValidationMessageFor(model => model.Reg_Date, "", new { @class = "text-danger" })
+                </div>*@
+                <label class="col-md-6">証憑登録日付</label>
+                <div class="col-md-6">
+                    <div class="date-input-container">
+                        <input type="text" class="form-control" value='@((Model.Reg_Date.HasValue ? Model.Reg_Date.Value.ToString("yyyy年MM月dd日") : ""))' name="Reg_Date" id="idRegDate" autocomplete="off" placeholder="YYYY年MM月DD日" style="background-color: white">
+                        <img class="search-icon calendar-icon" src="~/Commons/image/calendar.svg" alt="検索"  />
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <div class="form-group row mb-1">
+                @Html.LabelFor(model => model.Reg_User, htmlAttributes: new { @class = "control-label col-md-6" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.Reg_User, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.Reg_User, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group row mb-1">
+                @Html.LabelFor(model => model.Del_User, htmlAttributes: new { @class = "control-label col-md-6" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.Del_User, new { htmlAttributes = new { @class = "form-control", @id = "idDelUser", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.Del_User, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group row mb-1">
+                @Html.LabelFor(model => model.Del_Memo, htmlAttributes: new { @class = "control-label col-md-6" })
+                @*<div class="col-md-6">
+                    @Html.EditorFor(model => model.Del_Memo, new { htmlAttributes = new { @class = "form-control", @id = "idDelCause" } })
+                    @Html.ValidationMessageFor(model => model.Del_Memo, "", new { @class = "text-danger" })
+                </div>*@
+                <div class="col-md-6">
+                    <textarea class="form-control" id="idDelCause" name="Del_Memo" rows="4" readonly >@Model.Del_Memo </textarea>
+                    @Html.ValidationMessageFor(model => model.Del_Memo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group row mb-1">
+                @Html.LabelFor(model => model.FileUriList, htmlAttributes: new { @class = "control-label col-md-6" })
+                <div class="col-md-6">
+                    @Html.DropDownListFor(model => model.SelectedFileName, new SelectList(Model.FileUriList, "IdFile", "FileName"),
+                             new { @id = "fileDropdown", @onchange = "updateFileContent(this.value)", @class = "form-select", style = "font-size: 15px" })
+                </div>
+            </div>
+
+        </div>
+        <div class="row col-5" style="padding-top:20px">
+            <div id="fileContent" style="height:650px">
+                @if (Model.FileUriList.Count() > 0)
+                {
+                    <iframe id="fileIframe" src=@(Model.FileUriList.FirstOrDefault().FileUri)
+                            style="width:99%; height:100%;" frameborder="0"></iframe>
+                }
+                else
+                {
+                    <p>添付したファイルが見つかれません。</p>
+                }
+            </div>
+
+            <div style="padding-top:50px" class="form-group row mb-1">
+                 @Html.LabelFor(model => model.Memo, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                <div class="col-md-10">
+                    <textarea class="form-control" id="idDelCause" name="Memo" rows="4" readonly>@Model.Memo </textarea>
+                    @Html.ValidationMessageFor(model => model.Memo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-1 align-self-end">
+            <div class="form-group row mb-1">
+                <button id="idviewbox" type="button" class="btn" title="" onclick="onclickViewBoxJWT('@Model.Data_Seq')">
+                    <img class="search-icon" src="~/Commons/image/download.svg" alt="編集" />
+                </button>
+            </div>
+            <div class="form-group row mb-1">
+                <button id="iddetail" type="button" class="btn" title="削除" onclick="Delete()"
+                        data-toggle="modal" data-target="#DeleteModal">
+                    <img class="search-icon" src="~/Commons/image/eraser.svg" alt="削除" />
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="lds-roller" style="display:none" id="spinLoadingDetail"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+
+
+    <div class="modal fade" id="DetailModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header" id="modalHeader" style="background-color: orange">
+                    <h5 class="modal-title" id="exampleModalLabel"></h5>
+                </div>
+                <div class="modal-body">
+                    <p id="errorContent"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <input type="text" asp-for="@Model.UserId" hidden>
+    <input type="text" asp-for="@Model.Del_Flag" hidden>
+</form>
+
+
+<div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <h5 class="modal-title" id="exampleModalLabel">このデータを検索から除外しますか？</h5>
+                <button type="button" class="btn-close" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p id="errorContent">以下に除外理由を記載できます（※50文字以内)</p>
+                <textarea class="form-control" id="modalDelCause" rows="4" style="resize: none;"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" style="width: 100px;">Yes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" style="width: 100px;">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

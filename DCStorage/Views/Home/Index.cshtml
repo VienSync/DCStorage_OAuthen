@@ -1,0 +1,19 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+@model List<DCStorage.Models.C_ER001>
+
+<table>
+    <tr>
+        <th>管理番号</th>
+        <!-- Thêm các cột khác tương ứng với thuộc tính trong lớp C_ER001 -->
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Data_Seq</td>
+            <!-- Thêm các ô dữ liệu khác tương ứng với thuộc tính trong lớp C_ER001 -->
+        </tr>
+    }
+</table>

@@ -1,0 +1,12 @@
+bin/*
+obj/*
+/packages
+*.bak
+.vs/*
+DCStorage/bin/*
+DCStorage/obj/*
+DCStorage/.vs/*
+DCStorage/packages/*
+DCStorage/logs/*
+DCStorage/Properties/*
+DCStorage/Web.config
